@@ -7,7 +7,7 @@
 
 import Foundation
 
-private protocol NSCacheType: Cache {
+public protocol NSCacheType: Cache {
     var cache: NSCache<NSString, CacheEntry<V>> { get }
     var keysTracker: KeysTracker<V> { get }
 }
@@ -25,14 +25,14 @@ actor InMemoryCache<V>: NSCacheType {
 
     // MARK: Fileprivate
 
-    fileprivate let cache: NSCache<NSString, CacheEntry<V>> = .init()
-    fileprivate let keysTracker: KeysTracker<V> = .init()
+    internal let cache: NSCache<NSString, CacheEntry<V>> = .init()
+    internal let keysTracker: KeysTracker<V> = .init()
 }
 
-actor DiskCache<V: Codable>: NSCacheType {
+public actor DiskCache<V: Codable>: NSCacheType {
     // MARK: Lifecycle
 
-    init(filename: String, expirationInterval: TimeInterval) {
+    public init(filename: String, expirationInterval: TimeInterval) {
         self.filename = filename
         self.expirationInterval = expirationInterval
     }
@@ -40,15 +40,15 @@ actor DiskCache<V: Codable>: NSCacheType {
     // MARK: Internal
 
     let filename: String
-    let expirationInterval: TimeInterval
+    public let expirationInterval: TimeInterval
 
-    func saveToDisk() throws {
+    public func saveToDisk() throws {
         let entries = keysTracker.keys.compactMap(entry)
         let data = try JSONEncoder().encode(entries)
         try data.write(to: saveLocationURL)
     }
     
-    func loadFromDisk() throws {
+    public func loadFromDisk() throws {
         let data = try Data(contentsOf: saveLocationURL)
         let entries = try JSONDecoder().decode([CacheEntry<V>].self, from: data)
         entries.forEach { insert($0) }
@@ -56,8 +56,8 @@ actor DiskCache<V: Codable>: NSCacheType {
     
     // MARK: Fileprivate
 
-    fileprivate let cache: NSCache<NSString, CacheEntry<V>> = .init()
-    fileprivate let keysTracker: KeysTracker<V> = .init()
+    public let cache: NSCache<NSString, CacheEntry<V>> = .init()
+    public let keysTracker: KeysTracker<V> = .init()
 
     // MARK: Private
 
@@ -67,18 +67,18 @@ actor DiskCache<V: Codable>: NSCacheType {
     }
 }
 
-extension NSCacheType {
-    func removeValue(forKey key: String) {
+public extension NSCacheType {
+    public func removeValue(forKey key: String) {
         keysTracker.keys.remove(key)
         cache.removeObject(forKey: key as NSString)
     }
     
-    func removeAllValues() {
+    public func removeAllValues() {
         keysTracker.keys.removeAll()
         cache.removeAllObjects()
     }
     
-    func setValue(_ value: V?, forKey key: String) {
+    public func setValue(_ value: V?, forKey key: String) {
         if let value {
             let expiredTimestamp = Date().addingTimeInterval(expirationInterval)
             let cacheEntry = CacheEntry(key: key, value: value, expiredTimestamp: expiredTimestamp)
@@ -88,7 +88,7 @@ extension NSCacheType {
         }
     }
     
-    func value(forKey key: String) -> V? {
+    public func value(forKey key: String) -> V? {
         entry(forKey: key)?.value
     }
     

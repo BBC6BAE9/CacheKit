@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class CacheEntry<V> {
+public final class CacheEntry<V> {
     // MARK: Lifecycle
 
     init(key: String, value: V, expiredTimestamp: Date) {
