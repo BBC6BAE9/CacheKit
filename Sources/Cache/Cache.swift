@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol Cache: Actor {
+protocol Cache: Actor {
     associatedtype V
     var expirationInterval: TimeInterval { get }
 

@@ -10,7 +10,7 @@ import Foundation
 final class CacheEntry<V> {
     // MARK: Lifecycle
 
-    public init(key: String, value: V, expiredTimestamp: Date) {
+    init(key: String, value: V, expiredTimestamp: Date) {
         self.key = key
         self.value = value
         self.expiredTimestamp = expiredTimestamp
@@ -22,7 +22,7 @@ final class CacheEntry<V> {
     let value: V
     let expiredTimestamp: Date
 
-    public func isCacheExpired(after date: Date = .now) -> Bool {
+    func isCacheExpired(after date: Date = .now) -> Bool {
         date > expiredTimestamp
     }
 }
