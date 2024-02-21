@@ -15,7 +15,7 @@ private protocol NSCacheType: Cache {
 public actor InMemoryCache<V>: NSCacheType {
     // MARK: Lifecycle
 
-    init(expirationInterval: TimeInterval) {
+    public init(expirationInterval: TimeInterval) {
         self.expirationInterval = expirationInterval
     }
 
