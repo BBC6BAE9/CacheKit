@@ -21,7 +21,7 @@ public actor InMemoryCache<V>: NSCacheType {
 
     // MARK: Internal
 
-    let expirationInterval: TimeInterval
+    public let expirationInterval: TimeInterval
 
     // MARK: Fileprivate
 
@@ -39,8 +39,8 @@ public actor DiskCache<V: Codable>: NSCacheType {
 
     // MARK: Internal
 
-    let filename: String
-    let expirationInterval: TimeInterval
+    public let filename: String
+    public let expirationInterval: TimeInterval
 
     public func saveToDisk() throws {
         let entries = keysTracker.keys.compactMap(entry)
