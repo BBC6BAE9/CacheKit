@@ -12,7 +12,7 @@ private protocol NSCacheType: Cache {
     var keysTracker: KeysTracker<V> { get }
 }
 
-actor InMemoryCache<V>: NSCacheType {
+public actor InMemoryCache<V>: NSCacheType {
     // MARK: Lifecycle
 
     init(expirationInterval: TimeInterval) {
@@ -29,7 +29,7 @@ actor InMemoryCache<V>: NSCacheType {
     fileprivate let keysTracker: KeysTracker<V> = .init()
 }
 
-actor DiskCache<V: Codable>: NSCacheType {
+public actor DiskCache<V: Codable>: NSCacheType {
     // MARK: Lifecycle
 
     init(filename: String, expirationInterval: TimeInterval) {
