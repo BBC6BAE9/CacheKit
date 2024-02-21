@@ -1,6 +1,6 @@
 //
 //  CacheImplementation.swift
-//  VLCDemo
+//  Cache
 //
 //  Created by huanghong on 2023/12/27.
 //
@@ -12,10 +12,10 @@ private protocol NSCacheType: Cache {
     var keysTracker: KeysTracker<V> { get }
 }
 
-public actor InMemoryCache<V>: NSCacheType {
+actor InMemoryCache<V>: NSCacheType {
     // MARK: Lifecycle
 
-    public init(expirationInterval: TimeInterval) {
+    init(expirationInterval: TimeInterval) {
         self.expirationInterval = expirationInterval
     }
 
@@ -29,10 +29,10 @@ public actor InMemoryCache<V>: NSCacheType {
     fileprivate let keysTracker: KeysTracker<V> = .init()
 }
 
-public actor DiskCache<V: Codable>: NSCacheType {
+actor DiskCache<V: Codable>: NSCacheType {
     // MARK: Lifecycle
 
-    public init(filename: String, expirationInterval: TimeInterval) {
+    init(filename: String, expirationInterval: TimeInterval) {
         self.filename = filename
         self.expirationInterval = expirationInterval
     }
@@ -42,13 +42,13 @@ public actor DiskCache<V: Codable>: NSCacheType {
     let filename: String
     let expirationInterval: TimeInterval
 
-    public func saveToDisk() throws {
+    func saveToDisk() throws {
         let entries = keysTracker.keys.compactMap(entry)
         let data = try JSONEncoder().encode(entries)
         try data.write(to: saveLocationURL)
     }
     
-    public func loadFromDisk() throws {
+    func loadFromDisk() throws {
         let data = try Data(contentsOf: saveLocationURL)
         let entries = try JSONDecoder().decode([CacheEntry<V>].self, from: data)
         entries.forEach { insert($0) }
@@ -68,17 +68,17 @@ public actor DiskCache<V: Codable>: NSCacheType {
 }
 
 extension NSCacheType {
-    public func removeValue(forKey key: String) {
+    func removeValue(forKey key: String) {
         keysTracker.keys.remove(key)
         cache.removeObject(forKey: key as NSString)
     }
     
-    public func removeAllValues() {
+    func removeAllValues() {
         keysTracker.keys.removeAll()
         cache.removeAllObjects()
     }
     
-    public func setValue(_ value: V?, forKey key: String) {
+    func setValue(_ value: V?, forKey key: String) {
         if let value {
             let expiredTimestamp = Date().addingTimeInterval(expirationInterval)
             let cacheEntry = CacheEntry(key: key, value: value, expiredTimestamp: expiredTimestamp)
@@ -88,11 +88,11 @@ extension NSCacheType {
         }
     }
     
-    public func value(forKey key: String) -> V? {
+    func value(forKey key: String) -> V? {
         entry(forKey: key)?.value
     }
     
-    public func entry(forKey key: String) -> CacheEntry<V>? {
+    func entry(forKey key: String) -> CacheEntry<V>? {
         guard let entry = cache.object(forKey: key as NSString) else {
             return nil
         }
@@ -105,7 +105,7 @@ extension NSCacheType {
         return entry
     }
     
-    public func insert(_ entry: CacheEntry<V>) {
+    func insert(_ entry: CacheEntry<V>) {
         keysTracker.keys.insert(entry.key)
         cache.setObject(entry, forKey: entry.key as NSString)
     }
