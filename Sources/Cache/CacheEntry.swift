@@ -22,9 +22,10 @@ public final class CacheEntry<V> {
     let value: V
     let expiredTimestamp: Date
 
-    func isCacheExpired(after date: Date = .now) -> Bool {
+    func isCacheExpired(after date: Date = Date()) -> Bool {
         date > expiredTimestamp
     }
+    
 }
 
 extension CacheEntry: Codable where V: Codable {}
