@@ -16,6 +16,8 @@ let cache = DiskCache<[xxx]>(filename:"iptv_channels", expirationInterval: 30 * 
 
 ```swift
 cache.setValue(channels, forKey: keyString)
+try? await cache.saveToDisk()
+
 ```
 
 3、Load cache from disk
