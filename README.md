@@ -1,6 +1,6 @@
 # Cache
 
-Cache is a disk caching tool commonly used to store data returned from network requests.
+Cache is a lightweight disk caching tool commonly used to store data returned from network requests.
 
 # Quick Start
 
