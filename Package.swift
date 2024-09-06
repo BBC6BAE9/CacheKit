@@ -4,23 +4,23 @@
 import PackageDescription
 
 let package = Package(
-    name: "Cache",
+    name: "CacheKit",
      platforms: [
         .macOS(.v10_14), .iOS(.v13), .tvOS(.v13)
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "Cache",
-            targets: ["Cache"]),
+            name: "CacheKit",
+            targets: ["CacheKit"]),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "Cache"),
+            name: "CacheKit"),
         .testTarget(
-            name: "CacheTests",
-            dependencies: ["Cache"]),
+            name: "CacheKitTests",
+            dependencies: ["CacheKit"]),
     ]
 )
