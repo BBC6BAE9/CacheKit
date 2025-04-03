@@ -31,3 +31,77 @@ cache.loadFromDisk()
 ```swift
 cache.removeValue(forKey: keyString)
 ```
+
+# Class Diagram
+
+```mermaid
+classDiagram
+    class Cache~V~ {
+        <<protocol>>
+        +TimeInterval expirationInterval
+        +setValue(V?, forKey: String)
+        +value(forKey: String) V?
+        +removeValue(forKey: String)
+        +removeAllValues()
+    }
+
+    class NSCacheType~V~ {
+        <<protocol>>
+        +NSCache~NSString, CacheEntry~V~~ cache
+        +KeysTracker~V~ keysTracker
+        +setValue(V?, forKey: String)
+        +value(forKey: String) V?
+        +removeValue(forKey: String)
+        +removeAllValues()
+        #entry(forKey: String) CacheEntry~V~?
+        #insert(CacheEntry~V~)
+    }
+
+    class InMemoryCache~V~ {
+        +init(expirationInterval: TimeInterval)
+        +TimeInterval expirationInterval
+        -NSCache~NSString, CacheEntry~V~~ cache
+        -KeysTracker~V~ keysTracker
+    }
+
+    class DiskCache~V~ {
+        +init(filename: String, expirationInterval: TimeInterval)
+        +String filename
+        +TimeInterval expirationInterval
+        +saveToDisk() throws
+        +loadFromDisk() throws
+        -NSCache~NSString, CacheEntry~V~~ cache
+        -KeysTracker~V~ keysTracker
+        -URL saveLocationURL
+    }
+
+    class CacheEntry~V~ {
+        +init(key: String, value: V, expiredTimestamp: Date)
+        +String key
+        +V value
+        +Date expiredTimestamp
+        +isCacheExpired(after: Date) Bool
+    }
+
+    class KeysTracker~V~ {
+        +Set~String~ keys
+        +cache(_:willEvictObject:) void
+    }
+
+    class NSCache {
+        <<Foundation>>
+        +setObject(AnyObject?, forKey: AnyObject)
+        +object(forKey: AnyObject) AnyObject?
+        +removeObject(forKey: AnyObject)
+        +removeAllObjects()
+    }
+
+    Cache <|.. NSCacheType
+    NSCacheType <|.. InMemoryCache
+    NSCacheType <|.. DiskCache
+    NSCacheType o-- CacheEntry
+    NSCacheType o-- KeysTracker
+    NSCacheType o-- NSCache
+    KeysTracker --|> NSCacheDelegate
+    CacheEntry ..|> Codable
+```
