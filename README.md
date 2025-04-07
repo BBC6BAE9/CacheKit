@@ -2,7 +2,7 @@
 
 Cache is a lightweight disk caching tool commonly used to store data returned from network requests.
 
-# Quick Start
+## Quick Start
 
 1、Init cache
 
@@ -32,7 +32,7 @@ cache.loadFromDisk()
 cache.removeValue(forKey: keyString)
 ```
 
-# Class Diagram
+## Class Diagram
 
 ```mermaid
 classDiagram
