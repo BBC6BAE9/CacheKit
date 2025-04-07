@@ -7,7 +7,7 @@ Cache is a lightweight disk caching tool commonly used to store data returned fr
 1、Init cache
 
 ```Swift
-import Cache
+import CacheKit
 
 let cache = DiskCache<[YOUR_CODABLE_MODEL]>(filename:"YOUR_FILE_NAME", expirationInterval: 30 * 24 * 60 * 60)
 ```
