@@ -17,7 +17,7 @@ permissions:
 jobs:
   build:
     #2
-    runs-on: macos-12
+    runs-on: macos-latest
     #3
     steps:
       - name: Checkout Repository
