@@ -6,13 +6,16 @@ import PackageDescription
 let package = Package(
     name: "CacheKit",
      platforms: [
-        .macOS(.v10_15), .iOS(.v13), .tvOS(.v13)
+        .macOS(.v11), .iOS(.v13), .tvOS(.v13)
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "CacheKit",
             targets: ["CacheKit"]),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/swiftlang/swift-docc-plugin.git", branch: "main"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
