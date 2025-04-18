@@ -105,3 +105,6 @@ classDiagram
     KeysTracker --|> NSCacheDelegate
     CacheEntry ..|> Codable
 ```
+## Document
+
+https://bbc6bae9.github.io/cachekit/
