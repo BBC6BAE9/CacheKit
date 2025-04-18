@@ -30,6 +30,8 @@ cache.loadFromDisk()
 
 ```swift
 cache.removeValue(forKey: keyString)
+try? await cache.saveToDisk()
+
 ```
 
 5、More info
