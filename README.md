@@ -1,6 +1,6 @@
 # 📦 CacheKit 
 
-Cache is a lightweight disk caching tool for Apple platform, commonly used to store data returned from network requests.
+Cache is a lightweight thread safe disk caching tool for Apple platform, commonly used to store data returned from network requests.
 
 ## Quick Start
 
