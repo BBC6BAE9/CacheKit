@@ -32,6 +32,10 @@ cache.loadFromDisk()
 cache.removeValue(forKey: keyString)
 ```
 
+5、More info
+
+📄 https://bbc6bae9.github.io/cachekit/
+
 ## Class Diagram
 
 ```mermaid
@@ -105,6 +109,3 @@ classDiagram
     KeysTracker --|> NSCacheDelegate
     CacheEntry ..|> Codable
 ```
-## Document
-
-https://bbc6bae9.github.io/cachekit/
