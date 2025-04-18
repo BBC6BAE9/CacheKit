@@ -34,7 +34,7 @@ cache.removeValue(forKey: keyString)
 
 5、More info
 
-📄 https://bbc6bae9.github.io/cachekit/
+https://bbc6bae9.github.io/cachekit/
 
 ## Class Diagram
 
