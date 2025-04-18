@@ -11,5 +11,3 @@ xcrun docc process-archive transform-for-static-hosting \
     --hosting-base-path "cachekit"
 
 echo '<script>window.location.href += "/documentation/givenwithlove"</script>' > .docs/index.html
-
-
