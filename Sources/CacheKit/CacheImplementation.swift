@@ -18,22 +18,29 @@ public protocol NSCacheType: Cache {
 
 /// An in-memory cache implementation using NSCache.
 ///
-/// This cache stores all values in memory and is cleared when the application terminates.
-actor InMemoryCache<V>: NSCacheType {
+/// This cac he stores all values in memory and is cleared when the application terminates.
+public actor InMemoryCache<V>: NSCacheType {
     /// Creates a new in-memory cache.
+    ///
+    ///  use this initializer to use a disk cache.
     /// - Parameter expirationInterval: The time interval after which entries expire.
-    init(expirationInterval: TimeInterval) {
+    ///```swift
+    ///import CacheKit
+    ///let cache = DiskCache<[YOUR_CODABLE_MODEL]>(filename:"YOUR_FILE_NAME", expirationInterval: 30 * 24 * 60 * 60)
+    ///```
+    ///
+    public init(expirationInterval: TimeInterval) {
         self.expirationInterval = expirationInterval
     }
 
     /// The time interval after which entries expire.
-    let expirationInterval: TimeInterval
+    public let expirationInterval: TimeInterval
 
     /// The underlying NSCache instance.
-    internal let cache: NSCache<NSString, CacheEntry<V>> = .init()
+    public let cache: NSCache<NSString, CacheEntry<V>> = .init()
     
     /// The key tracker for this cache.
-    internal let keysTracker: KeysTracker<V> = .init()
+    public let keysTracker: KeysTracker<V> = .init()
 }
 
 /// A disk-based cache implementation that persists values to the filesystem.
