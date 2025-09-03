@@ -5,26 +5,40 @@ import PackageDescription
 
 let package = Package(
     name: "CacheKit",
-     platforms: [
+    platforms: [
         .macOS(.v11), .iOS(.v13), .tvOS(.v13), .visionOS(.v1)
     ],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
+        // Source code version (default)
         .library(
-            name: "CacheKit", type: .dynamic,
-            
-            targets: ["CacheKit"]),
+            name: "CacheKit",
+            type: .dynamic,
+            targets: ["CacheKit"]
+        ),
+        // Binary version (precompiled XCFramework)
+        .library(
+            name: "CacheKitBinary",
+            targets: ["CacheKitBinary"]
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/swiftlang/swift-docc-plugin.git", branch: "main"),
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
-        .target(
-            name: "CacheKit"),
+        // Source target
+        .target(name: "CacheKit"),
+        
+        // Binary target
+        .binaryTarget(
+            name: "CacheKitBinary",
+            url: "https://github.com/BBC6BAE9/cachekit/releases/download/0.0.4/CacheKit.xcframework.zip",
+            checksum: "3307a446acdd7ebbcb316344fb20b2341390213ebacc6200b7443179fada16a8"
+        ),
+        
+        // Test target
         .testTarget(
             name: "CacheKitTests",
-            dependencies: ["CacheKit"]),
+            dependencies: ["CacheKit"]
+        ),
     ]
 )
