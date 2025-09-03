@@ -290,14 +290,42 @@ main() {
         XCFRAMEWORK_SIZE=$(du -h "$XCFRAMEWORK_OUTPUT" | cut -f1)
         print_status "XCFramework size: $XCFRAMEWORK_SIZE"
         
+        # Create ZIP archive for distribution
+        print_status "Creating ZIP archive for distribution..."
+        ZIP_OUTPUT="${BUILD_DIR}/${NAME}.xcframework.zip"
+        
+        cd "$BUILD_DIR"
+        zip -r "${NAME}.xcframework.zip" "${NAME}.xcframework"
+        cd - > /dev/null
+        
+        if [ -f "$ZIP_OUTPUT" ]; then
+            ZIP_SIZE=$(du -h "$ZIP_OUTPUT" | cut -f1)
+            print_success "ZIP archive created: $ZIP_OUTPUT (Size: $ZIP_SIZE)"
+            
+            # Calculate and display checksum
+            print_status "Calculating SHA256 checksum..."
+            CHECKSUM=$(shasum -a 256 "$ZIP_OUTPUT" | cut -d' ' -f1)
+            print_status "SHA256 Checksum: $CHECKSUM"
+            echo "$CHECKSUM" > "${ZIP_OUTPUT}.checksum"
+            print_status "Checksum saved to: ${ZIP_OUTPUT}.checksum"
+        else
+            print_error "Failed to create ZIP archive"
+        fi
+        
         print_success ""
         print_success "🎉 Build completed successfully!"
+        print_success ""
+        print_status "Generated files:"
+        print_status "  📦 XCFramework: $XCFRAMEWORK_OUTPUT"
+        print_status "  🗜️ ZIP Archive: $ZIP_OUTPUT"
+        print_status "  🔐 Checksum: ${ZIP_OUTPUT}.checksum"
         print_success ""
         print_status "Next steps:"
         print_status "1. Drag $XCFRAMEWORK_OUTPUT to your Xcode project"
         print_status "2. Add to 'Frameworks, Libraries, and Embedded Content'"
         print_status "3. Set embedding option as needed"
         print_status "4. Import $NAME in your Swift files"
+        print_status "5. For SPM binary target, use $ZIP_OUTPUT"
         print_success ""
         print_status "Based on tutorial: https://davidwanderer.github.io/Blog/2024/05/12/如何将Swift-Package编译成XCFramework/"
     else
