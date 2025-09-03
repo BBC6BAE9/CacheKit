@@ -89,13 +89,13 @@ public actor DiskCache<V: Codable>: NSCacheType {
 public extension NSCacheType {
     /// Removes a value from the cache.
     /// - Parameter key: The key to remove.
-    public func removeValue(forKey key: String) {
+    func removeValue(forKey key: String) {
         keysTracker.keys.remove(key)
         cache.removeObject(forKey: key as NSString)
     }
     
     /// Removes all values from the cache.
-    public func removeAllValues() {
+    func removeAllValues() {
         keysTracker.keys.removeAll()
         cache.removeAllObjects()
     }
@@ -104,7 +104,7 @@ public extension NSCacheType {
     /// - Parameters:
     ///   - value: The value to store. If nil, the key will be removed.
     ///   - key: The key to associate with the value.
-    public func setValue(_ value: V?, forKey key: String) {
+    func setValue(_ value: V?, forKey key: String) {
         if let value {
             let expiredTimestamp = Date().addingTimeInterval(expirationInterval)
             let cacheEntry = CacheEntry(key: key, value: value, expiredTimestamp: expiredTimestamp)
@@ -117,7 +117,7 @@ public extension NSCacheType {
     /// Retrieves a value from the cache.
     /// - Parameter key: The key to look up.
     /// - Returns: The value associated with the key, or nil if no value exists or has expired.
-    public func value(forKey key: String) -> V? {
+    func value(forKey key: String) -> V? {
         entry(forKey: key)?.value
     }
     

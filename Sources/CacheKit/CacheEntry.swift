@@ -16,7 +16,7 @@ public final class CacheEntry<V> {
     ///   - key: The unique identifier for the cached value
     ///   - value: The value to be cached
     ///   - expiredTimestamp: The date when the cache entry expires
-    init(key: String, value: V, expiredTimestamp: Date) {
+    public init(key: String, value: V, expiredTimestamp: Date) {
         self.key = key
         self.value = value
         self.expiredTimestamp = expiredTimestamp
@@ -41,4 +41,23 @@ public final class CacheEntry<V> {
     }
 }
 
-extension CacheEntry: Codable where V: Codable {}
+extension CacheEntry: Codable where V: Codable {
+    private enum CodingKeys: String, CodingKey {
+        case key, value, expiredTimestamp
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(key, forKey: .key)
+        try container.encode(value, forKey: .value)
+        try container.encode(expiredTimestamp, forKey: .expiredTimestamp)
+    }
+    
+    public convenience init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let key = try container.decode(String.self, forKey: .key)
+        let value = try container.decode(V.self, forKey: .value)
+        let expiredTimestamp = try container.decode(Date.self, forKey: .expiredTimestamp)
+        self.init(key: key, value: value, expiredTimestamp: expiredTimestamp)
+    }
+}

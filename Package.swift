@@ -6,12 +6,13 @@ import PackageDescription
 let package = Package(
     name: "CacheKit",
      platforms: [
-        .macOS(.v11), .iOS(.v13), .tvOS(.v13)
+        .macOS(.v11), .iOS(.v13), .tvOS(.v13), .visionOS(.v1)
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "CacheKit",
+            type: .dynamic,
             targets: ["CacheKit"]),
     ],
     dependencies: [
