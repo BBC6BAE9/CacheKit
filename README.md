@@ -36,7 +36,7 @@ try? await cache.saveToDisk()
 
 5、More info
 
-https://bbc6bae9.github.io/cachekit/
+[https://bbc6bae9.github.io/cachekit/](https://bbc6bae9.github.io/CacheKit/documentation/cachekit/)
 
 ## Class Diagram
 
