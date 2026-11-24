@@ -1,6 +1,6 @@
 # 📦 CacheKit 
 
-Cache is a lightweight thread safe disk caching tool for Apple platform, commonly used to store data returned from network requests.
+CacheKit provides memory and disk caches for [Apple](apple/), [Android](android/README.md), and [HarmonyOS](harmonyos/README.md). Add this repository URL in Swift Package Manager to use the Apple library.
 
 ## Quick Start
 

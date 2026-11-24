@@ -18,12 +18,13 @@ let package = Package(
     dependencies: [],
     targets: [
         // Source target
-        .target(name: "CacheKit"),
+        .target(name: "CacheKit", path: "apple/Sources/CacheKit"),
         
         // Test target
         .testTarget(
             name: "CacheKitTests",
-            dependencies: ["CacheKit"]
+            dependencies: ["CacheKit"],
+            path: "apple/Tests/CacheKitTests"
         ),
     ]
 )
