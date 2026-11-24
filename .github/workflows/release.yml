@@ -1,33 +1,33 @@
 name: Release
 on:
   push:
-    branches: [main]
-  workflow_dispatch:
+    tags: ['[0-9]+.[0-9]+.[0-9]+']
 
 permissions:
   contents: write
 
 concurrency:
-  group: cachekit-stable-release
+  group: release-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
   release:
-    if: github.ref == 'refs/heads/main'
+    if: ${{ !github.event.deleted }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main
           fetch-depth: 0
-      - name: Publish the next Angular commit release
+          persist-credentials: false
+      - name: Publish the pushed tag
         env:
+          TAG: ${{ github.ref_name }}
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          version=$(python3 .github/scripts/next_version.py)
-          if [[ -z "$version" ]]; then
-            echo "No release requested by commits since the latest stable tag."
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists."
             exit 0
           fi
-          gh release create "$version" --target "$(git rev-parse HEAD)" --title "$version" --generate-notes
+          python3 .github/scripts/release_notes.py "$TAG" > "$RUNNER_TEMP/release-notes.md"
+          gh release create "$TAG" --verify-tag --title "$TAG" --notes-file "$RUNNER_TEMP/release-notes.md"
