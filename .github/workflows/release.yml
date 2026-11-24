@@ -25,9 +25,30 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          if gh release view "$TAG" >/dev/null 2>&1; then
-            echo "Release $TAG already exists."
-            exit 0
+          notes="$RUNNER_TEMP/release-notes.md"
+          python3 .github/scripts/release_notes.py "$TAG" > "$notes"
+          if gh release view "$TAG" --json body --jq '.body' > "$RUNNER_TEMP/current-notes.md"; then
+            python3 - "$RUNNER_TEMP/current-notes.md" "$notes" <<'PY'
+          from pathlib import Path
+          import sys
+
+          current, generated = map(Path, sys.argv[1:])
+          start = "<!-- cachekit:changes:start -->"
+          end = "<!-- cachekit:changes:end -->"
+          body = current.read_text().strip()
+          changes = generated.read_text().strip()
+          section = f"{start}\n{changes}\n{end}"
+          before, found, rest = body.partition(start)
+          if found:
+              _, closed, after = rest.partition(end)
+              if not closed:
+                  raise ValueError("Incomplete generated release notes section")
+              body = before + section + after
+          elif body != changes:
+              body = (body + "\n\n" + section).strip()
+          generated.write_text(body + "\n")
+          PY
+            gh release edit "$TAG" --notes-file "$notes"
+          else
+            gh release create "$TAG" --verify-tag --title "$TAG" --notes-file "$notes"
           fi
-          python3 .github/scripts/release_notes.py "$TAG" > "$RUNNER_TEMP/release-notes.md"
-          gh release create "$TAG" --verify-tag --title "$TAG" --notes-file "$RUNNER_TEMP/release-notes.md"
