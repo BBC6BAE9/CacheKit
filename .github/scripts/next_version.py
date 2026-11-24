@@ -39,8 +39,8 @@ def next_version():
         elif header["type"] in {"fix", "perf", "revert"}:
             level = max(level, 1)
     current = version_tuple(previous) if previous else (0, 0, 0)
-    if override:
-        if version_tuple(override) <= current:
+    if override and version_tuple(override) != current:
+        if version_tuple(override) < current:
             raise ValueError(f"Release-As {override} must exceed {previous}")
         return override
     if not level:
