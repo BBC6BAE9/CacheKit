@@ -111,3 +111,7 @@ classDiagram
     KeysTracker --|> NSCacheDelegate
     CacheEntry ..|> Codable
 ```
+
+## Android (Kotlin)
+
+See the [Android module](android/README.md) for installation and usage.
