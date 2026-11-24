@@ -1,0 +1,7 @@
+{
+  "name": "@bbc6bae9/cachekit",
+  "version": "0.1.0",
+  "description": "Memory and disk caching for HarmonyOS",
+  "main": "Index.ets",
+  "dependencies": {}
+}

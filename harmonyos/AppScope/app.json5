@@ -1,0 +1,10 @@
+{
+  "app": {
+    "bundleName": "io.github.bbc6bae9.cachekit",
+    "vendor": "CacheKit",
+    "versionCode": 1,
+    "versionName": "0.1.0",
+    "label": "$string:app_name",
+    "icon": "$media:icon"
+  }
+}

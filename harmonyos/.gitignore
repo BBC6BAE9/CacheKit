@@ -1,0 +1,7 @@
+.hvigor/
+.idea/
+build/
+node_modules/
+oh_modules/
+local.properties
+/cachekit/BuildProfile.ets
