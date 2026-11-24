@@ -20,19 +20,12 @@ CacheKit is a lightweight, thread-safe disk caching library for Apple platforms 
 ## Project Structure
 
 ```
-CacheKit11/
-├── Package.swift              # SPM manifest
-├── Sources/
-│   └── CacheKit/
-│       ├── Cache.swift           # Cache protocol definition
-│       ├── CacheEntry.swift      # Cache entry model
-│       ├── CacheImplementation.swift  # InMemoryCache & DiskCache
-│       ├── KeysTracker.swift     # NSCacheDelegate for tracking keys
-│       └── CacheKit.docc/        # DocC documentation
-├── Tests/
-│   └── CacheTests/
-│       └── CacheTests.swift      # Unit tests
-├── .docs/                        # Generated documentation
+CacheKit/
+├── Package.swift                 # SwiftPM manifest
+├── apple/Sources/CacheKit/       # Swift implementation and CacheKit.docc
+├── apple/Tests/CacheKitTests/    # Swift tests
+├── android/                      # Kotlin module
+├── harmonyos/                    # ArkTS module
 └── .github/workflows/            # CI/CD workflows
 ```
 
@@ -40,7 +33,7 @@ CacheKit11/
 
 ```bash
 # Clone and navigate to project
-cd CacheKit11
+cd CacheKit
 
 # Build the project
 swift build

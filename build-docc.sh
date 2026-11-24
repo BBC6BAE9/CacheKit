@@ -1,13 +1,19 @@
-##!/bin/sh
+#!/bin/sh
+set -eu
 
-xcrun xcodebuild docbuild \
-    -scheme CacheKit \
-    -destination 'generic/platform=iOS Simulator' \
-    -derivedDataPath "$PWD/.derivedData"
+cd "$(dirname "$0")"
+graphs="$PWD/.derivedData/CacheKit-symbols"
+mkdir -p "$graphs"
+swift build --target CacheKit \
+    -Xswiftc -emit-symbol-graph \
+    -Xswiftc -emit-symbol-graph-dir -Xswiftc "$graphs"
 
-xcrun docc process-archive transform-for-static-hosting \
-    "$PWD/.derivedData/Build/Products/Debug-iphonesimulator/CacheKit.doccarchive" \
-    --output-path ".docs" \
-    --hosting-base-path "CacheKit"
+xcrun docc convert apple/Sources/CacheKit/CacheKit.docc \
+    --additional-symbol-graph-dir "$graphs" \
+    --fallback-display-name CacheKit \
+    --fallback-bundle-identifier CacheKit \
+    --output-path .docs \
+    --transform-for-static-hosting \
+    --hosting-base-path CacheKit
 
 echo '<script>window.location.href += "/documentation/cachekit"</script>' > .docs/index.html
