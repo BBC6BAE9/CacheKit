@@ -1,0 +1,33 @@
+name: Release
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cachekit-stable-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Publish the next Angular commit release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          version=$(python3 .github/scripts/next_version.py)
+          if [[ -z "$version" ]]; then
+            echo "No release requested by commits since the latest stable tag."
+            exit 0
+          fi
+          gh release create "$version" --target "$(git rev-parse HEAD)" --title "$version" --generate-notes

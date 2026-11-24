@@ -119,3 +119,7 @@ See the [Android module](android/README.md) for installation and usage.
 ## HarmonyOS (ArkTS)
 
 See the [HarmonyOS module](harmonyos/README.md) for HAR integration and usage.
+
+## Releases
+
+Pushes to `main` publish one shared numeric Git tag and GitHub Release for Apple, Android and HarmonyOS. Use Angular commit messages (including squash commits): `fix`, `perf` and `revert` increment the patch, `feat` increments the minor, and a `!` header or `BREAKING CHANGE:` footer increments the major. Other changes alone do not trigger a release. The largest change since the latest reachable stable tag wins. To request an explicit higher version, add a `Release-As: X.Y.Z` footer to the commit. The Release workflow can also be retried manually on main.
