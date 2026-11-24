@@ -122,4 +122,4 @@ See the [HarmonyOS module](harmonyos/README.md) for HAR integration and usage.
 
 ## Releases
 
-Push a stable numeric Git tag (for example, `git push origin 2.1.0`) on a commit containing the Release workflow. GitHub Actions publishes a Release for that exact tag, shared across all three platforms. Angular commit messages since the preceding reachable stable version are grouped into release notes. An existing Release is preserved on retry.
+Push a stable numeric Git tag (for example, `git push origin 2.1.0`) on a commit containing the Release workflow. GitHub Actions publishes a Release for that exact tag, shared across all three platforms. Angular commit messages since the preceding reachable stable version are grouped into release notes. If the Release already exists, the workflow fills in its change summary and preserves any separately written notes.
