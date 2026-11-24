@@ -115,3 +115,7 @@ classDiagram
 ## Android (Kotlin)
 
 See the [Android module](android/README.md) for installation and usage.
+
+## HarmonyOS (ArkTS)
+
+See the [HarmonyOS module](harmonyos/README.md) for HAR integration and usage.
